@@ -1,10 +1,25 @@
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+export VIRTUAL_ENV_DISABLE_PROMPT=0
+
 # divider line between each command
 divider_line() {
-    echo -n "%F{236}"
-    printf '─%.0s' {1..$COLUMNS}
-    echo -n "%f"
+	venv_prompt="%F{105}[${${VIRTUAL_ENV%/}##*/}]%f"
+	
+	if [[ -z "$VIRTUAL_ENV" ]]; then
+    	echo -n "%F{236}"
+    	printf '─%.0s' {1..$COLUMNS}
+    	echo -n "%f"
+	else
+    	echo -n "%F{236}"
+		echo -n "─$venv_prompt"
+		# +9 to account for the color formatting, start from 2 because
+		# we printed a dash before the venv prompt
+    	echo -n "%F{236}"
+		printf '─%.0s' {2..$((COLUMNS-$#venv_prompt+9))}
+    	echo -n "%f"
+	fi
+
 }
 
 # git prompt if inside git directory
@@ -62,6 +77,7 @@ alias gc="git commit"
 alias gco="git checkout"
 alias gr="git rebase"
 alias glog="git log --oneline --graph"
+alias ichd="choose-adb-serial;export ANDROID_SERIAL=\$(cat '/tmp/ichoose-device-serial-file')"
 
 export PATH="/home/Almog/.local/bin:$PATH"
 
