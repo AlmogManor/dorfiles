@@ -4,7 +4,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=0
 
 # divider line between each command
 divider_line() {
-	venv_prompt="%F{105}[${${VIRTUAL_ENV%/}##*/}]%f"
+	venv_prompt="%F{105} [${${VIRTUAL_ENV%/}##*/}] %f"
 	
 	if [[ -z "$VIRTUAL_ENV" ]]; then
     	echo -n "%F{236}"
@@ -90,8 +90,18 @@ alias ga="git add"
 alias gc="git commit"
 alias gco="git checkout"
 alias gr="git rebase"
+alias gs="git status"
 alias glog="git log --oneline --graph"
 alias ichd="choose-adb-serial;export ANDROID_SERIAL=\$(cat '/tmp/ichoose-device-serial-file')"
+alias vend="deactivate"
+
+venv() {
+	if (( "$#" == 0 )); then
+		source "./venv/bin/activate"
+	else
+		source "./$1/bin/activate"
+	fi
+}
 
 export PATH="/home/Almog/.local/bin:$PATH"
 
